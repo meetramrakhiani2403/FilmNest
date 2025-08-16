@@ -13,17 +13,14 @@ export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
 
-    console.log("[v0] Login API called with email:", email)
 
     // Find user
     const user = users.find((u) => u.email === email && u.password === password)
 
     if (!user) {
-      console.log("[v0] User not found or invalid password")
       return NextResponse.json({ error: "Invalid email or password" }, { status: 401 })
     }
 
-    console.log("[v0] User found, creating token")
     // Create JWT token
     const token = await createToken({
       id: user.id,
@@ -31,7 +28,6 @@ export async function POST(request: NextRequest) {
       name: user.name,
     })
 
-    console.log("[v0] Token created, setting cookie")
     // Set httpOnly cookie
     const cookieStore = await cookies()
     cookieStore.set("auth-token", token, {
@@ -41,7 +37,6 @@ export async function POST(request: NextRequest) {
       maxAge: 60 * 60 * 24, // 24 hours
     })
 
-    console.log("[v0] Login successful for user:", user.email)
     return NextResponse.json({
       user: {
         id: user.id,
@@ -50,7 +45,6 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.log("[v0] Login API error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

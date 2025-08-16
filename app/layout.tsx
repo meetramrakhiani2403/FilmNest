@@ -22,7 +22,6 @@ const openSans = Open_Sans({
 export const metadata: Metadata = {
   title: "FilmNest - Discover Your Next Favorite Film",
   description: "Explore movies, search for titles, and manage your favorites in this cinematic movie discovery app.",
-  generator: "v0.app",
 }
 
 export default function RootLayout({

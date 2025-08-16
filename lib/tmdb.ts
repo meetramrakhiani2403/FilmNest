@@ -80,12 +80,7 @@ class TMDBClient {
   constructor() {
     this.apiKey = TMDB_API_KEY
     this.baseUrl = TMDB_BASE_URL
-    console.log("[v0] TMDB API Key status:", {
-      isSet: !!process.env.TMDB_API_KEY,
-      isDefault: this.apiKey === "your-tmdb-api-key",
-      keyLength: this.apiKey.length,
-      keyPreview: this.apiKey.substring(0, 8) + "...",
-    })
+    
   }
 
   private async request<T>(endpoint: string, params: Record<string, string> = {}): Promise<T> {
@@ -96,21 +91,11 @@ class TMDBClient {
       url.searchParams.append(key, value)
     })
 
-    console.log("[v0] TMDB API Request:", {
-      endpoint,
-      url: url.toString().replace(this.apiKey, "***API_KEY***"),
-      params,
-    })
+    
 
     const response = await fetch(url.toString())
 
     if (!response.ok) {
-      console.error("[v0] TMDB API Error:", {
-        status: response.status,
-        statusText: response.statusText,
-        endpoint,
-        apiKeyValid: this.apiKey !== "your-tmdb-api-key",
-      })
       throw new Error(`TMDB API error: ${response.status} ${response.statusText}`)
     }
 

@@ -13,11 +13,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const page = Number.parseInt(searchParams.get("page") || "1", 10)
 
-    console.log("[v0] Popular movies API - calling TMDB with page:", page)
-    console.log("[v0] Environment check:", {
-      hasTmdbKey: !!process.env.TMDB_API_KEY,
-      tmdbKeyLength: process.env.TMDB_API_KEY?.length || 0,
-    })
+
 
     const data = await tmdb.getPopularMovies(page)
     return NextResponse.json(data)

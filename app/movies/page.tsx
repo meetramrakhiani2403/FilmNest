@@ -43,13 +43,11 @@ export default function MoviesPage() {
           ? `/api/movies/search?query=${encodeURIComponent(searchQuery)}&page=${currentPage}`
           : `/api/movies/popular?page=${currentPage}`
 
-        console.log("[v0] Fetching from endpoint:", endpoint)
         const response = await fetch(endpoint)
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}))
-          console.log("[v0] API Error Response:", response.status, errorData)
-
+          
           if (response.status === 401) {
             setError("Please log in to view movies")
           } else if (response.status === 500) {
@@ -62,11 +60,9 @@ export default function MoviesPage() {
         }
 
         const data: TMDBResponse = await response.json()
-        console.log("[v0] Movies loaded successfully:", data.results.length, "movies")
         setMovies(data.results)
         setTotalPages(Math.min(data.total_pages, 500))
       } catch (error) {
-        console.error("[v0] Failed to load movies:", error)
         setError("Network error - please check your connection")
         setMovies([])
       } finally {

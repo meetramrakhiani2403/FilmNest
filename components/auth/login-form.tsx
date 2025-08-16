@@ -23,7 +23,6 @@ export function LoginForm() {
     setIsLoading(true)
     setError("")
 
-    console.log("[v0] Login attempt with email:", email)
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -32,20 +31,16 @@ export function LoginForm() {
         body: JSON.stringify({ email, password }),
       })
 
-      console.log("[v0] Login response status:", response.status)
       const data = await response.json()
-      console.log("[v0] Login response data:", data)
 
       if (!response.ok) {
         throw new Error(data.error || "Login failed")
       }
 
-      console.log("[v0] Login successful, redirecting to /movies")
       // Token is set as httpOnly cookie by the API
       router.push("/movies")
       router.refresh()
     } catch (err) {
-      console.log("[v0] Login error:", err)
       setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setIsLoading(false)
